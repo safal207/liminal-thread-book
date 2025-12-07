@@ -225,6 +225,20 @@ p {
   color: var(--text-soft);
 }
 
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(110, 231, 255, 0.08);
+  border: 1px solid rgba(110, 231, 255, 0.24);
+  color: var(--accent);
+  font-size: 13px;
+  letter-spacing: 0.01em;
+}
+
 .accent {
   color: var(--accent);
 }
@@ -299,72 +313,13 @@ p {
   box-shadow: var(--shadow-card);
 }
 
-.book-mock {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.book-spine {
-  width: 20px;
-  border-radius: 10px;
-  background: linear-gradient(
-    to bottom,
-    #0f172a,
-    #020617
-  );
-  box-shadow: 4px 0 18px rgba(0, 0, 0, 0.7);
-}
-
-.book-cover {
-  flex: 1;
-  min-height: 180px;
-  border-radius: 14px;
-  background: radial-gradient(circle at 20% 0, #1e293b, #020617);
+.cover-image {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
   border: 1px solid rgba(148, 163, 184, 0.5);
-  padding: 18px 18px 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-}
-
-.book-cover::before {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  background: radial-gradient(
-    circle at 10% 0,
-    rgba(110, 231, 255, 0.32),
-    transparent 50%
-  );
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.book-title {
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  position: relative;
-}
-
-.book-subtitle {
-  margin-top: 14px;
-  font-size: 13px;
-  color: var(--text-soft);
-  max-width: 260px;
-  position: relative;
-}
-
-.book-author {
-  font-size: 12px;
-  color: var(--text-soft2);
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  position: relative;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+  margin-bottom: 16px;
 }
 
 .hero-card-text {
@@ -438,6 +393,53 @@ p {
 .stat-text {
   font-size: 13px;
   color: var(--text-soft);
+  margin-top: 6px;
+}
+
+/* TIMELINE */
+
+.timeline {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 32px;
+}
+
+.phases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.phase-card {
+  background: rgba(15, 23, 42, 0.88);
+  border-radius: var(--radius-lg);
+  padding: 16px 16px 14px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  box-shadow: var(--shadow-soft);
+}
+
+.phase-label {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-soft2);
+  margin-bottom: 6px;
+}
+
+.phase-card h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.phase-card p {
+  font-size: 14px;
+  color: var(--text-soft);
+  margin: 0;
+}
+
+/* AUTHOR */
+
+.author {
+  gap: 32px;
 }
 
 /* CARDS */
