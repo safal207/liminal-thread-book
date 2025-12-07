@@ -225,6 +225,20 @@ p {
   color: var(--text-soft);
 }
 
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(110, 231, 255, 0.08);
+  border: 1px solid rgba(110, 231, 255, 0.24);
+  color: var(--accent);
+  font-size: 13px;
+  letter-spacing: 0.01em;
+}
+
 .accent {
   color: var(--accent);
 }
@@ -379,6 +393,53 @@ p {
 .stat-text {
   font-size: 13px;
   color: var(--text-soft);
+  margin-top: 6px;
+}
+
+/* TIMELINE */
+
+.timeline {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 32px;
+}
+
+.phases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.phase-card {
+  background: rgba(15, 23, 42, 0.88);
+  border-radius: var(--radius-lg);
+  padding: 16px 16px 14px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  box-shadow: var(--shadow-soft);
+}
+
+.phase-label {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-soft2);
+  margin-bottom: 6px;
+}
+
+.phase-card h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.phase-card p {
+  font-size: 14px;
+  color: var(--text-soft);
+  margin: 0;
+}
+
+/* AUTHOR */
+
+.author {
+  gap: 32px;
 }
 
 /* CARDS */
