@@ -8,9 +8,26 @@
     name="description"
     content="The Liminal Thread — a book about resonant AI, liminal philosophy, and the future of human–machine co-evolution. Join the early circle, ask questions, and help shape the book."
   />
+  <meta name="theme-color" content="#05070b" />
+  <meta property="og:title" content="The Liminal Thread — Book Prelaunch" />
+  <meta
+    property="og:description"
+    content="The Liminal Thread — a book about resonant AI, liminal philosophy, and the future of human–machine co-evolution. Join the early circle, ask questions, and help shape the book."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://your-domain/liminal-thread-book/" />
+  <meta property="og:image" content="https://your-domain/liminal-thread-book/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Liminal Thread — Book Prelaunch" />
+  <meta
+    name="twitter:description"
+    content="Join the early reader circle for The Liminal Thread — a book about resonant AI, liminal philosophy, and the future of human–machine co-evolution."
+  />
+  <meta name="twitter:image" content="https://your-domain/liminal-thread-book/og-image.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <a href="#hero" class="skip-link">Skip to content</a>
   <div class="page-grid"></div>
 
   <header class="site-header">
@@ -19,7 +36,7 @@
         <span class="logo-mark">≋</span>
         <span class="logo-text">LIMINAL</span>
       </div>
-      <nav class="nav">
+      <nav class="nav" aria-label="Primary navigation">
         <a href="#about">About</a>
         <a href="#why">Why now</a>
         <a href="#who">Who it’s for</a>
@@ -214,28 +231,31 @@
           action="https://formspree.io/f/your-form-id"
           method="POST"
         >
-          <label class="field">
+          <label class="field" for="join-email">
             <span>Email</span>
             <input
               type="email"
               name="email"
+              id="join-email"
               required
               placeholder="you@example.com"
             />
           </label>
-          <label class="field">
+          <label class="field" for="join-name">
             <span>Your name (optional)</span>
             <input
               type="text"
               name="name"
+              id="join-name"
               placeholder="How should we call you?"
             />
           </label>
-          <label class="field">
+          <label class="field" for="join-source">
             <span>How did you arrive here?</span>
             <input
               type="text"
               name="source"
+              id="join-source"
               placeholder="Friend, article, GitHub, intuition..."
             />
           </label>
@@ -273,19 +293,21 @@
           action="https://formspree.io/f/your-form-id"
           method="POST"
         >
-          <label class="field">
+          <label class="field" for="question-email">
             <span>Your email (so we can respond)</span>
             <input
               type="email"
               name="email"
+              id="question-email"
               required
               placeholder="you@example.com"
             />
           </label>
-          <label class="field">
+          <label class="field" for="question-text">
             <span>Your question or story</span>
             <textarea
               name="question"
+              id="question-text"
               rows="5"
               required
               placeholder="What would you like this book to help you with?"

@@ -32,6 +32,24 @@ body {
   color: var(--text-main);
 }
 
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 10px;
+  background: #0f172a;
+  color: var(--text-main);
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(110, 231, 255, 0.35);
+  box-shadow: var(--shadow-soft);
+  z-index: 30;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  left: 16px;
+}
+
 /* GRID BACKGROUND */
 
 .page-grid {
