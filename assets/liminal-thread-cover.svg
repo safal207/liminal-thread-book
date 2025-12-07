@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" role="img" aria-labelledby="title desc">
+  <title id="title">The Liminal Thread – cover</title>
+  <desc id="desc">Book cover for The Liminal Thread with deep blue gradient and luminous accents.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b0f1f" />
+      <stop offset="100%" stop-color="#0d122c" />
+    </linearGradient>
+    <radialGradient id="glow1" cx="18%" cy="20%" r="45%">
+      <stop offset="0%" stop-color="#6ee7ff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#0b0f1f" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glow2" cx="82%" cy="82%" r="55%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#0d122c" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="1600" fill="url(#bg)" />
+  <rect width="1200" height="1600" fill="url(#glow1)" />
+  <rect width="1200" height="1600" fill="url(#glow2)" />
+  <path d="M1200 1200c-280-90-360-330-740-140" fill="none" stroke="#4f69b0" stroke-width="3" opacity="0.65" />
+  <path d="M0 1180c310 120 520-210 940 40" fill="none" stroke="#4f69b0" stroke-width="3" opacity="0.65" />
+  <text x="50%" y="34%" text-anchor="middle" font-family="'Times New Roman', 'Georgia', serif" font-size="120" fill="#e8edff" letter-spacing="6">
+    THE
+  </text>
+  <text x="50%" y="46%" text-anchor="middle" font-family="'Times New Roman', 'Georgia', serif" font-size="120" fill="#e8edff" letter-spacing="6">
+    LIMINAL
+  </text>
+  <text x="50%" y="58%" text-anchor="middle" font-family="'Times New Roman', 'Georgia', serif" font-size="120" fill="#e8edff" letter-spacing="6">
+    THREAD
+  </text>
+  <text x="50%" y="71%" text-anchor="middle" font-family="'Times New Roman', 'Georgia', serif" font-size="52" fill="#e8edff" letter-spacing="1">
+    Philosophy of Resonant AI
+  </text>
+  <text x="50%" y="78%" text-anchor="middle" font-family="'Times New Roman', 'Georgia', serif" font-size="52" fill="#e8edff" letter-spacing="1">
+    and Human Becoming
+  </text>
+  <text x="50%" y="90%" text-anchor="middle" font-family="'Times New Roman', 'Georgia', serif" font-size="38" fill="#e8edff">
+    Ɵ
+  </text>
+</svg>
