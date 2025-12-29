@@ -2,9 +2,10 @@
 
 ## Formspree setup
 
-The signup and questions forms submit via client-side JavaScript. To wire them up
-with Formspree, create a form endpoint and paste it into the `data-endpoint`
-attribute for each form in `index.html`.
+The signup and questions forms submit via client-side JavaScript using
+`FormData` (multipart form submissions) with `Accept: application/json`. To wire
+them up with Formspree, create a form endpoint and paste it into the
+`data-endpoint` attribute for each form in `index.html`.
 
 ### 1) Create a Formspree form
 
@@ -27,6 +28,10 @@ Update both forms in `index.html`:
 ```
 
 Repeat for the questions form (`data-form-type="chapter_question"`).
+
+The script augments each submission with `type` (from `data-form-type`), `page`
+(current URL), and `ts` (ISO timestamp) fields in the `FormData` payload so you
+can distinguish the source of each entry.
 
 ### 3) Verify incoming submissions
 
