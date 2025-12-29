@@ -1,12 +1,34 @@
 # liminal-thread-book
 
-## Formspree setup (GitHub Pages contact capture)
+## Formspree setup
 
-1. Create a new Formspree form and copy the endpoint URL.
-2. Update both forms in `index.html`:
-   - Replace `action` and `data-endpoint` with your Formspree endpoint.
-3. Deploy the site and submit a test message to verify it appears in Formspree.
+The signup and questions forms submit via client-side JavaScript. To wire them up
+with Formspree, create a form endpoint and paste it into the `data-endpoint`
+attribute for each form in `index.html`.
 
-Notes:
-- The endpoint is stored in `data-endpoint` attributes (no secrets in the repo).
-- The client sends JSON payloads with a `type` field to distinguish the two forms.
+### 1) Create a Formspree form
+
+1. Go to https://formspree.io and create an account.
+2. Create a new form and copy the endpoint URL (looks like
+   `https://formspree.io/f/your-form-id`).
+
+### 2) Configure the endpoint in `index.html`
+
+Update both forms in `index.html`:
+
+```html
+<form
+  class="form"
+  action="https://formspree.io/f/your-form-id"
+  method="POST"
+  data-endpoint="https://formspree.io/f/your-form-id"
+  data-form-type="early_circle_signup"
+>
+```
+
+Repeat for the questions form (`data-form-type="chapter_question"`).
+
+### 3) Verify incoming submissions
+
+Formspree will show submissions in your dashboard, and you can enable email
+notifications or integrations from the Formspree settings page.

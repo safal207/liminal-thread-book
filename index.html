@@ -275,7 +275,7 @@
           action="https://formspree.io/f/xnjqlgyk"
           method="POST"
           data-endpoint="https://formspree.io/f/xnjqlgyk"
-          data-type="early_circle_signup"
+          data-form-type="early_circle_signup"
         >
           <label class="field honeypot" for="join-website">
             <span>Website</span>
@@ -315,10 +315,22 @@
               placeholder="Friend, article, GitHub, intuition..."
             />
           </label>
+          <label class="field honeypot" for="join-website">
+            <span>Website</span>
+            <input
+              type="text"
+              name="website"
+              id="join-website"
+              autocomplete="off"
+              tabindex="-1"
+              aria-hidden="true"
+            />
+          </label>
 
           <button type="submit" class="btn primary full">
             Join early circle
           </button>
+          <p class="form-status" role="status" aria-live="polite"></p>
 
           <p class="form-feedback" role="status" aria-live="polite"></p>
           <p class="form-note">
@@ -349,7 +361,7 @@
           action="https://formspree.io/f/xnjqlgyk"
           method="POST"
           data-endpoint="https://formspree.io/f/xnjqlgyk"
-          data-type="chapter_question"
+          data-form-type="chapter_question"
         >
           <label class="field honeypot" for="question-website">
             <span>Website</span>
@@ -381,11 +393,22 @@
               placeholder="What would you like this book to help you with?"
             ></textarea>
           </label>
+          <label class="field honeypot" for="question-website">
+            <span>Website</span>
+            <input
+              type="text"
+              name="website"
+              id="question-website"
+              autocomplete="off"
+              tabindex="-1"
+              aria-hidden="true"
+            />
+          </label>
 
           <button type="submit" class="btn ghost full">
             Send your question
           </button>
-          <p class="form-feedback" role="status" aria-live="polite"></p>
+          <p class="form-status" role="status" aria-live="polite"></p>
           <p class="form-note">
             Some anonymized questions may appear in the book (only with your
             permission).
