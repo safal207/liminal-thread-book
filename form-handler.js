@@ -33,6 +33,44 @@
     button.disabled = disabled;
   };
 
+  const getPageUrl = () =>
+    typeof window !== "undefined" ? window.location.href : "";
+
+  const isRateLimited = (form, now) => {
+    const lastSubmitted = Number(form.dataset.lastSubmitted || 0);
+    return now - lastSubmitted < RATE_LIMIT_MS;
+  };
+
+  const buildPayload = (form, pageUrl = getPageUrl()) => ({
+    type: form.dataset.formType || "",
+    email: getFieldValue(form, "email"),
+    name: getFieldValue(form, "name"),
+    source: getFieldValue(form, "source"),
+    question: getFieldValue(form, "question"),
+    page: pageUrl,
+    ts: new Date().toISOString(),
+  });
+
+  const sendPayload = async ({ endpoint, payload, fetchImpl = fetch }) => {
+    const response = await fetchImpl(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorText = response.status
+        ? `Server error (${response.status}). Please try again later.`
+        : "Something went wrong. Please try again.";
+      throw new Error(errorText);
+    }
+
+    return response;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -48,9 +86,8 @@
       return;
     }
 
-    const lastSubmitted = Number(form.dataset.lastSubmitted || 0);
     const now = Date.now();
-    if (now - lastSubmitted < RATE_LIMIT_MS) {
+    if (isRateLimited(form, now)) {
       setStatus(form, "Please wait a few seconds before trying again.", "error");
       return;
     }
@@ -72,33 +109,10 @@
     disableForm(form, true);
     setStatus(form, "Sending...", "");
 
-    const payload = {
-      type: form.dataset.formType || "",
-      email: getFieldValue(form, "email"),
-      name: getFieldValue(form, "name"),
-      source: getFieldValue(form, "source"),
-      question: getFieldValue(form, "question"),
-      page: window.location.href,
-      ts: new Date().toISOString(),
-    };
+    const payload = buildPayload(form);
 
     try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const errorText = response.status
-          ? `Server error (${response.status}). Please try again later.`
-          : "Something went wrong. Please try again.";
-        throw new Error(errorText);
-      }
-
+      await sendPayload({ endpoint, payload });
       form.dataset.lastSubmitted = String(Date.now());
       form.reset();
       setStatus(form, "✅ Sent / You’re in", "success");
@@ -110,8 +124,28 @@
     }
   };
 
-  const forms = document.querySelectorAll("form[data-endpoint]");
-  forms.forEach((form) => {
-    form.addEventListener("submit", handleSubmit);
-  });
+  if (typeof document !== "undefined") {
+    const forms = document.querySelectorAll("form[data-endpoint]");
+    forms.forEach((form) => {
+      form.addEventListener("submit", handleSubmit);
+    });
+  }
+
+  const FormHandler = {
+    RATE_LIMIT_MS,
+    getFieldValue,
+    setStatus,
+    disableForm,
+    isRateLimited,
+    buildPayload,
+    sendPayload,
+  };
+
+  if (typeof window !== "undefined") {
+    window.FormHandler = FormHandler;
+  }
+
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = FormHandler;
+  }
 })();
