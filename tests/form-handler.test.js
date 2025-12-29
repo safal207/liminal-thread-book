@@ -5,9 +5,27 @@ const {
   setStatus,
   disableForm,
   isRateLimited,
-  buildPayload,
-  sendPayload,
+  buildFormData,
+  sendFormData,
 } = require("../form-handler.js");
+
+class FormDataStub {
+  constructor(form) {
+    this.form = form;
+    this.fields = {};
+  }
+
+  append(key, value) {
+    if (!this.fields[key]) {
+      this.fields[key] = [];
+    }
+    this.fields[key].push(value);
+  }
+
+  getAll(key) {
+    return this.fields[key] || [];
+  }
+}
 
 const createClassList = () => {
   const classes = new Set();
@@ -114,17 +132,14 @@ const run = async () => {
       },
     });
     form.dataset.formType = "chapter_question";
-    const payload = buildPayload(form, "https://example.test/page");
-    assert.deepStrictEqual(payload, {
-      type: "chapter_question",
-      email: "person@example.com",
-      name: "Ada",
-      source: "twitter",
-      question: "What inspired the book?",
-      page: "https://example.test/page",
-      ts: payload.ts,
-    });
-    assert.ok(payload.ts);
+    const formData = buildFormData(
+      form,
+      "https://example.test/page",
+      FormDataStub
+    );
+    assert.strictEqual(formData.getAll("type")[0], "chapter_question");
+    assert.strictEqual(formData.getAll("page")[0], "https://example.test/page");
+    assert.ok(formData.getAll("ts")[0]);
   }
 
   {
@@ -133,8 +148,8 @@ const run = async () => {
         email: { value: "hello@example.com" },
       },
     });
-    const payload = buildPayload(form);
-    assert.strictEqual(payload.page, "");
+    const formData = buildFormData(form, "", FormDataStub);
+    assert.strictEqual(formData.getAll("page")[0], "");
   }
 
   {
@@ -143,32 +158,28 @@ const run = async () => {
       calls.push({ endpoint, options });
       return { ok: true };
     };
-    const payload = { type: "early_circle_signup", email: "test@example.com" };
-    await sendPayload({
+    const formData = new FormDataStub();
+    await sendFormData({
       endpoint: "https://formspree.io/f/example",
-      payload,
+      formData,
       fetchImpl: fetchStub,
     });
     assert.strictEqual(calls.length, 1);
     assert.strictEqual(calls[0].endpoint, "https://formspree.io/f/example");
     assert.strictEqual(calls[0].options.method, "POST");
-    assert.strictEqual(
-      calls[0].options.headers["Content-Type"],
-      "application/json"
-    );
     assert.strictEqual(calls[0].options.headers.Accept, "application/json");
-    assert.strictEqual(calls[0].options.body, JSON.stringify(payload));
+    assert.strictEqual(calls[0].options.body, formData);
   }
 
   {
     const fetchStub = async () => ({ ok: false, status: 500 });
-    await sendPayload({
+    await sendFormData({
       endpoint: "https://formspree.io/f/example",
-      payload: { type: "chapter_question" },
+      formData: new FormDataStub(),
       fetchImpl: fetchStub,
     })
       .then(() => {
-        throw new Error("Expected sendPayload to reject");
+        throw new Error("Expected sendFormData to reject");
       })
       .catch((error) => {
         assert.ok(error instanceof Error);

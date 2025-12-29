@@ -41,44 +41,73 @@
     return now - lastSubmitted < RATE_LIMIT_MS;
   };
 
-  const buildPayload = (form, pageUrl = getPageUrl()) => ({
-    type: form.dataset.formType || "",
-    email: getFieldValue(form, "email"),
-    name: getFieldValue(form, "name"),
-    source: getFieldValue(form, "source"),
-    question: getFieldValue(form, "question"),
-    page: pageUrl,
-    ts: new Date().toISOString(),
-  });
+  const buildFormData = (form, pageUrl = getPageUrl(), formDataImpl = FormData) => {
+    const formData = new formDataImpl(form);
+    formData.append("type", form.dataset.formType || "");
+    formData.append("page", pageUrl);
+    formData.append("ts", new Date().toISOString());
+    return formData;
+  };
 
-  const sendPayload = async ({ endpoint, payload, fetchImpl = fetch }) => {
+  const getErrorMessage = (status) => {
+    if (!status) {
+      return "Network error. Please try again.";
+    }
+    if (status === 401 || status === 403) {
+      return "Forbidden. Please check the form endpoint.";
+    }
+    if (status === 404) {
+      return "Invalid endpoint. Please verify the form action URL.";
+    }
+    return `Server error (${status}). Please try again later.`;
+  };
+
+  const sendFormData = async ({ endpoint, formData, fetchImpl = fetch }) => {
     const response = await fetchImpl(endpoint, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(payload),
+      body: formData,
     });
 
+    if (typeof console !== "undefined" && console.info) {
+      console.info("[FormHandler] submit response", {
+        endpoint,
+        status: response.status,
+        ok: response.ok,
+        response,
+      });
+    }
+
     if (!response.ok) {
-      const errorText = response.status
-        ? `Server error (${response.status}). Please try again later.`
-        : "Something went wrong. Please try again.";
-      throw new Error(errorText);
+      throw new Error(getErrorMessage(response.status));
     }
 
     return response;
   };
 
+  const fallbackToNativeSubmit = (form) => {
+    form.dataset.nativeSubmit = "1";
+    form.submit();
+  };
+
   const handleSubmit = async (event) => {
-    event.preventDefault();
     const form = event.currentTarget;
-    const endpoint = form.dataset.endpoint;
-    if (!endpoint) {
-      setStatus(form, "Missing form endpoint configuration.", "error");
+    if (form.dataset.nativeSubmit === "1") {
       return;
     }
+
+    const endpoint = form.dataset.endpoint;
+    if (
+      !endpoint ||
+      typeof fetch !== "function" ||
+      typeof FormData !== "function"
+    ) {
+      return;
+    }
+
+    event.preventDefault();
 
     const honeypot = getFieldValue(form, "website");
     if (honeypot) {
@@ -109,16 +138,27 @@
     disableForm(form, true);
     setStatus(form, "Sending...", "");
 
-    const payload = buildPayload(form);
+    const formData = buildFormData(form);
 
     try {
-      await sendPayload({ endpoint, payload });
+      await sendFormData({ endpoint, formData });
       form.dataset.lastSubmitted = String(Date.now());
       form.reset();
       setStatus(form, "✅ Sent / You’re in", "success");
     } catch (error) {
       const message = error instanceof Error ? error.message : "Network error.";
-      setStatus(form, message, "error");
+      setStatus(
+        form,
+        `${message} Falling back to standard submit...`,
+        "error"
+      );
+      if (typeof console !== "undefined" && console.info) {
+        console.info("[FormHandler] fallback to native submit", {
+          endpoint,
+          message,
+        });
+      }
+      fallbackToNativeSubmit(form);
     } finally {
       disableForm(form, false);
     }
@@ -137,8 +177,8 @@
     setStatus,
     disableForm,
     isRateLimited,
-    buildPayload,
-    sendPayload,
+    buildFormData,
+    sendFormData,
   };
 
   if (typeof window !== "undefined") {
