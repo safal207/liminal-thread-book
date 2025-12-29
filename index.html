@@ -272,9 +272,21 @@
 
         <form
           class="form"
-          action="https://formspree.io/f/your-form-id"
+          action="https://formspree.io/f/xnjqlgyk"
           method="POST"
+          data-endpoint="https://formspree.io/f/xnjqlgyk"
+          data-type="early_circle_signup"
         >
+          <label class="field honeypot" for="join-website">
+            <span>Website</span>
+            <input
+              type="text"
+              name="website"
+              id="join-website"
+              autocomplete="off"
+              tabindex="-1"
+            />
+          </label>
           <label class="field" for="join-email">
             <span>Email</span>
             <input
@@ -308,6 +320,7 @@
             Join early circle
           </button>
 
+          <p class="form-feedback" role="status" aria-live="polite"></p>
           <p class="form-note">
             You can unsubscribe at any time. No noise — only meaningful
             updates.
@@ -333,9 +346,21 @@
 
         <form
           class="form"
-          action="https://formspree.io/f/your-form-id"
+          action="https://formspree.io/f/xnjqlgyk"
           method="POST"
+          data-endpoint="https://formspree.io/f/xnjqlgyk"
+          data-type="chapter_question"
         >
+          <label class="field honeypot" for="question-website">
+            <span>Website</span>
+            <input
+              type="text"
+              name="website"
+              id="question-website"
+              autocomplete="off"
+              tabindex="-1"
+            />
+          </label>
           <label class="field" for="question-email">
             <span>Your email (so we can respond)</span>
             <input
@@ -360,6 +385,7 @@
           <button type="submit" class="btn ghost full">
             Send your question
           </button>
+          <p class="form-feedback" role="status" aria-live="polite"></p>
           <p class="form-note">
             Some anonymized questions may appear in the book (only with your
             permission).
@@ -467,5 +493,6 @@
       </div>
     </footer>
   </main>
+  <script src="form-handler.js"></script>
 </body>
 </html>
